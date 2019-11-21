@@ -1,0 +1,22 @@
+<html>
+<head>
+     <link rel="stylesheet" type="text/css" href="stylesheets/d3.slider.css" media="screen" />
+     <script src="javascripts/d3.v3.min.js"></script>
+     <script src="javascripts/d3.slider.js"></script>
+     <script>
+          // Initialize slider
+          var slider = d3.slider().min(0).max(10).ticks(10).showRange(true).value(6);
+          // Render the slider in the div
+          d3.select('#slider').call(slider);
+     </script>
+</head>
+<body>
+     <div id="visualization">
+          visualizaiton
+          <div id ="slider">
+               slider
+          </div>
+     </div>
+</body>
+
+</html>
