@@ -31,33 +31,12 @@ Your goal in this project is to create visualizations that illustrate interestin
 2. Create a website that tells a story about this data through at least four different visualizations paired with explanatory text.
 
 <h2>Option 1: Interactive Visualizations</h2>
-<h3>Minimum Requirements:</h3>
-This option will allow you to build a system that lets users explore the provided art data. If you choose this option, your project must:
+<h3>Authors:Keaton Whitehead, Angus McDonald</h3>
+<h3>Sources: </h3>
 <ul>
-<li> Include a README.md file that outlines:
-  <ul>
-  <li>Information about your visualizations and what they show. Include information about interactions, preprocesses, and design as appropriate. Note what tasks the visualization allows you to accomplish to derive this insight and how your design is tailored to support these tasks. </li>
-  <li>Your design process (e.g., how did you go about designing, building, and refining your system? Why did you choose these representations?)</li>
-  <li>Your team roles for each individual</li>
-  <li>How to run your project</li>
-    <li>Any additional elements of the project you consider "above and beyond" the basic requirements.</li></ul></li>
-<li>Include at least two unique visualizations:
-  <ul>
-  <li>One visualization must include some quantitative data</li>
-  <li>One visualization must include categorical data</li>
-  <li>Each visualization must be interactive</li>
-  <li>Your visualizations should support at least one meaningful comparison between related data attributes</li>
-</ul></li>
-</ul>
+     <li>https://mdbootstrap.com/docs/jquery/forms/slider/</li>
 
-<h3>Above and Beyond:</h3>
-The above requirements are the minimum for a passing grade on this project. Some ideas to improve your project include (but are not limited to):<ul>
-<li>Unusual Representations: Draw on some of the examples from class to represent data in ways beyond a typical scatterplot or bar chart.</li>
-<li>Style: Keep the style consistent across all your views, with an eye towards intelligently applying visual design.</li>
-<li>Interesting Tasks: Derive insight into the data. Highlight these insights in your readme and describe how the visualization enables them. What do these insights tell us about the data? </li>
-<li>Perceptually-Informed Design: Integrate perceptual concepts into your visualization design and discuss how you've integrated those concepts in your readme.</li>
-<li>Integrate Imagery: Use data from the provided URLs to add more context to your visualization. For example, you could link to or scrape text about individual paintings or artists or integrate images of the art into your visualizations.</li>
-<li>Coordinated Views: Have two or more visualizations that interact with one another as you move through the data.</li></ul>
+</ul>
 
 <h3>Platforms:</h3>
 You can use any development platform you'd like so long as your final project runs in the browser without having to install anything new. Your project readme should include step-by-step instructions on how to run your projects and it should run without me having to modify the code. You are welcome to use different platforms for each visualization.
@@ -131,5 +110,3 @@ All submissions must be made through GitHub with a timestamp by 11:59pm on 12.2.
 Note that each group only needs to submit one file. <br/>
 
 This project would typically be conducted over a two-week timeline, which would give you more time to focus on your final projects. However, I do not want to require people to work over the break. Given the pending break and final projects, I will give up to 5 bonus points to teams that submit their projects early. Starting November 27, you will get one bonus point per day early. As GitHub allows you to submit continuously, please send me an email (one per group with all team members CC'ed) after submiting your project (commit AND push) letting me know you've submitted your project early to receive the bonus points.  
-
-this is a test
