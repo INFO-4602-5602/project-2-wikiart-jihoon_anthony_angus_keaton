@@ -33,7 +33,7 @@
           <div id="container">
                <script>
                //Global variable of year that is manipulated by the slider
-               var selectedYear = 1435
+               var selectedArtist = prompt("What artist would you like to learn about?");
                // SOURCE TEMPLATE: http://bl.ocks.org/wayneminton/a12b563819b04a3555aa
                // Data concerns: negative ratings AND a bunch of 0s in the data (holes in provided data)
                var margin = {top: 10, right: 10, bottom: 10, left: 10},
@@ -70,7 +70,7 @@
                     d.forEach(function(d) {
                          ratings.push({
                               Name: d.Artist,
-                              Year: d.Year,
+                              Year: +d.Year,
                               Title: d.Title,
                               Bio: d.Bio,
                               URL: d["Artist Info URL"],
@@ -130,7 +130,7 @@
                               Name: dd.key,
                               Year: dd.values[0].Year,
                               Title: dd.values[0].Title,
-                              URL: dd.values[0].URL,
+                              Bio: dd.values[0].URL,
                               avg_anger: totalAnger/lengthAnger,
                               avg_fear: totalFear/lengthFear,
                               avg_happiness: totalHappiness/lengthHappiness,
@@ -151,23 +151,40 @@
                          {emotion: "Anticipation", rating: d.avg_anticipation}])
                     });
                     artistIndex = 0
+                    avgRatingsPerArtist.forEach(function(x){
 
-                         if(avgRatingsPerArtist[artistIndex].Year == selectedYear){
+                         // console.log(avgRatingsPerArtist[artistIndex]);
+                          if(avgRatingsPerArtist[artistIndex].Name == selectedArtist){
                               //function iterate(item){
                               //var artistIndex = 984; //***CHANGE INDEX TO CHANGE ARTIST, 0-985 inclusive***
                               // Informational variables on respective artist based on index above
                               var artistName = avgRatingsPerArtist[artistIndex].Name;
-                              var artistBio = avgRatingsPerArtist[artistIndex].URL;
+                              var artistBio = avgRatingsPerArtist[artistIndex].Bio;
                               var pieChartInfo = data[artistIndex];
-                              var paintingTitle = avgRatingsPerArtist[artistIndex].Title;
-                              var paintingYear = avgRatingsPerArtist[artistIndex].Year;
-                              var paintingBio = avgRatingsPerArtist[artistIndex].Bio;
-                              var container = document.getElementById("container");
-                              container.innerHTML += '<div class ="card-body"><h5 class="card-title">' + paintingTitle + '</h5><h6 class="card-subtitle mb-2 text-muted">' + artistName + '</h6><p class="card-text">' + artistBio + '</p><p class="card-text">' + paintingYear + '</p></div>';
-                              console.log(avgRatingsPerArtist[artistIndex].Year);
-                              console.log(pieChartInfo);
+                              var paintingTitle = "";
+                              console.log(ratingsByArtist[artistIndex]);
+                              //
+                              var counter = 0;
+                              ratingsByArtist[artistIndex].values.forEach(function(d){
+                                   var indexPlaceHolder = ratingsByArtist[artistIndex].values.length
+                                   if (counter == indexPlaceHolder-1){
+                                        paintingTitle += d.Title;
 
-                              // Create, draw, and customize the pie chart /w legend below...
+                                   }
+
+                                   else{
+                                        paintingTitle += d.Title + ', ';
+                                   }
+                                   counter ++;
+                              });
+
+                              var paintingYear = avgRatingsPerArtist[artistIndex].Year;
+                              var container = document.getElementById("container");
+                              container.innerHTML += '<div class ="card-body"><h5 class="card-title">' + paintingTitle + '</h5><h6 class="card-subtitle mb-2 text-muted">' + artistName + '</h6><p class="card-text"><a href="'+artistBio+'">Artist Biography </a></p><p class="card-text">' + paintingYear + '</p></div>';
+                              console.log(avgRatingsPerArtist[artistIndex].Name);
+
+
+                              // Create, draw, and customize the pie chart
                               var g = svg.selectAll(".arc")
                               .data(pie(pieChartInfo))
                               .enter().append("g")
@@ -181,6 +198,8 @@
                               .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
                               .attr("dy", ".35em")
                               .style("text-anchor", "middle");
+
+                              //Create a legend
                               var padding = 20,
                               legx = radius + padding,
                               legend = svg.append("g")
@@ -189,13 +208,12 @@
                               .style("font-size", "12px")
                               .call(d3.legend)
 
-                         }
+                          }
                          artistIndex = 1 + artistIndex;
                     });
+                    console.log(ratingsByArtist);
+                    console.log(avgRatingsPerArtist);
                     //ratingsByArtist.forEach(iterate);
-
-
-
                });
                </script>
           </div>
