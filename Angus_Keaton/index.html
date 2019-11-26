@@ -20,6 +20,20 @@
 
 
      <style>
+     body {
+       font: 10px sans-serif;
+     }
+
+     .arc path {
+       stroke: #fff;
+     }
+
+     .legend rect {
+       fill:white;
+       stroke:black;
+       opacity: 0.8;
+     }
+
      img {
           object-fit: none; /* Do not scale the image */
           object-position: center; /* Center the image within the element */
@@ -72,7 +86,7 @@
           cursor: pointer;
      }
      </style>
-     
+
 </head>
 
 <body id="page-top">
@@ -124,18 +138,22 @@
                          <!-- Content Row -->
                          <div class="row" id ="container">
                               <script>
+
                               var array = new Array("Picasso","Leonardo","Tim Kellner","NONAME","Fractle","Last Man Standing");
                               var arrayImg = new Array("https://use2-uploads7.wikiart.org/images/robert-campin/triptych-the-two-thieves-with-the-empty-cross-the-entombment-the-resurrection.jpg","https://use2-uploads3.wikiart.org/images/masaccio/st-juvenal-triptych-1422.jpg","https://use2-uploads0.wikiart.org/images/robert-campin/blessing-christ-and-praying-virgin.jpg", "https://use2-uploads1.wikiart.org/images/masaccio/the-tribute-money-1425.jpg", "https://use2-uploads0.wikiart.org/images/masaccio/st-paul-1426.jpg","https://use2-uploads2.wikiart.org/images/masaccio/st-andrew-1426.jpg");
                               var container = document.getElementById("container");
-                              for (var i = 0; i < array.length; i++) {
-                                   container.innerHTML += '<div class="card" style="width: 18rem;"> <img class="card-img-top" src="'+arrayImg[i]+'" alt="Card image cap"><div class ="card-body"><h5 class="card-title">' + array[i] + '</h5><h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6><p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p><a href="#" class="card-link">Card link</a><a href="#" class="card-link">Another link</a></div></div>';
-                              }
+
+                              // if(document.getElementById("myRange").value > 1700)     {
+                                        for (var i = 0; i < array.length; i++) {
+                                        container.innerHTML += '<div class="card" style="width: 18rem;"> <img class="card-img-top" src="'+arrayImg[i]+'" alt="Card image cap"><div class ="card-body"><h5 class="card-title">' + array[i] + '</h5><h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6><p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p><a href="#" class="card-link">Card link</a><a href="#" class="card-link">Another link</a></div></div>';
+                                   }
+                              // }
                               </script>
 
                          </div>
                          <div class="row" id="slider">
                               <div class="slidecontainer">
-                                   <input type="range" min="1415" max="2012" value="1415" class="slider" id="myRange">
+                                   <input type="range" min="1415" max="2012" value="1701" class="slider" id="myRange">
                                    <p>Value: <span id="demo"></span></p>
                               </div>
                          </div>

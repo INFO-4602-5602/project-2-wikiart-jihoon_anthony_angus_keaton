@@ -1,192 +1,205 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-  <title>Project 2: Categorical Data</title>
-<style>
+<html lang="en">
+<head>
+     <meta charset="utf-8">
+     <title>Project 2: Categorical Data</title>
+     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-body {
-  font: 10px sans-serif;
-}
+     <!-- Custom styles for this template-->
+     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+     <style>
+     body {
+          font: 10px sans-serif;
+     }
+     .arc path {
+          stroke: #fff;
+     }
+     .legend rect {
+          fill:white;
+          stroke:black;
+          opacity: 0.8;
+     }
+     div {
+          border: black 2px solid
+     }
 
-.arc path {
-  stroke: #fff;
-}
-
-.legend rect {
-  fill:white;
-  stroke:black;
-  opacity: 0.8;}
-
-</style>
-
+     </style>
+</head>
 <body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="d3.legend.js"></script>
-<script>
+     <script src="https://d3js.org/d3.v3.min.js"></script>
+     <script src="d3.legend.js"></script>
+     <div class"card" style="width: 18rem;">
+          <div id="container">
+               <script>
+               //Global variable of year that is manipulated by the slider
+               var selectedYear = 1435
+               // SOURCE TEMPLATE: http://bl.ocks.org/wayneminton/a12b563819b04a3555aa
+               // Data concerns: negative ratings AND a bunch of 0s in the data (holes in provided data)
+               var margin = {top: 10, right: 10, bottom: 10, left: 10},
+               width = 284,
+               height = (500 - margin.top - margin.bottom)/2,
+               radius = Math.min(width, height) / 4;
+               // Article for color-emotional mappings: https://link.springer.com/article/10.3758/s13428-015-0598-8
+               // anger=red, fear=black, happiness=yellow, sadness=blue, disgust=green, anticipation=pink
+               var color = d3.scale.ordinal()
+               .range(["red", "black", "yellow", "blue", "green", "pink"]);
+               var arc = d3.svg.arc()
+               .outerRadius(radius - 10)
+               .innerRadius(0);
+               var pie = d3.layout.pie()
+               .sort(null)
+               .value(function(d) { return d.rating; });
+               var svg = d3.select("body").append("svg")
+               .attr("width", width)
+               .attr("height", height)
+               .append("g")
+               .attr("transform", "translate(" + width / 4 + "," + height / 2 + ")");
+               // Array to hold all needed data in object
+               var ratings = [];
+               // Array to group data by artist name
+               var avgRatingsPerArtist = [];
+               // Initialize variables to calculate averages
+               var totalAnger = 0, totalFear = 0, totalHappiness = 0,
+               totalSadness = 0, totalDisgust = 0, totalAnticipation = 0;
+               var lengthAnger = 0, lengthFear = 0, lengthHappiness = 0,
+               lengthSadness = 0, lengthDisgust = 0, lengthAnticipation = 0;
 
-// SOURCE TEMPLATE: http://bl.ocks.org/wayneminton/a12b563819b04a3555aa
-// Data concerns: negative ratings AND a bunch of 0s in the data (holes in provided data)
+               d3.csv("WikiArtClean.csv", function(error, d) {
+                    // Load data into array to easily group later on
+                    d.forEach(function(d) {
+                         ratings.push({
+                              Name: d.Artist,
+                              Year: d.Year,
+                              Title: d.Title,
+                              Bio: d.Bio,
+                              URL: d["Artist Info URL"],
+                              Anger: +d.Anger,
+                              Fear: +d.Fear,
+                              Happiness: +d.Happiness,
+                              Sadness: +d.Sadness,
+                              Disgust: +d.Disgust,
+                              Anticipation: +d.Anticipation
+                         });
+                    });
+                    // Groups data by artist name in separate array
+                    var ratingsByArtist = d3.nest()
+                    .key(function(d) { return d.Name; })
+                    .entries(ratings);
+                    ratingsByArtist.forEach(function(dd){ // for each artist...
+                         // reset variables to 0 before using for average calculations
+                         totalAnger = 0, totalFear = 0, totalHappiness = 0,
+                         totalSadness = 0, totalDisgust = 0, totalAnticipation = 0;
+                         lengthAnger = 0, lengthFear = 0, lengthHappiness = 0,
+                         lengthSadness = 0, lengthDisgust = 0, lengthAnticipation = 0;
+                         dd.values.forEach(function(d){ //for each data row on the artist...
+                              if (d.Anger != 0){ //assume if emotion=0 then no information was recorded
+                                   totalAnger += d.Anger;
+                                   lengthAnger++;
+                              }
+                              if (d.Fear != 0){
+                                   totalFear += d.Fear;
+                                   lengthFear++;
+                              }
+                              if (d.Happiness != 0){
+                                   totalHappiness += d.Happiness;
+                                   lengthHappiness++;
+                              }
+                              if (d.Sadness != 0){
+                                   totalSadness += d.Sadness;
+                                   lengthSadness++;
+                              }
+                              if (d.Disgust != 0){
+                                   totalDisgust += d.Disgust;
+                                   lengthDisgust++;
+                              }
+                              if (d.Anticipation != 0){
+                                   totalAnticipation += d.Anticipation;
+                                   lengthAnticipation++;
+                              }
+                         });
+                         // check if length=0 to avoid division by 0 (results in NaN), won't change result of 0
+                         if (lengthAnger == 0){lengthAnger = 1;}
+                         if (lengthFear == 0){lengthFear = 1;}
+                         if (lengthHappiness == 0){lengthHappiness = 1;}
+                         if (lengthSadness == 0){lengthSadness = 1;}
+                         if (lengthDisgust == 0){lengthDisgust = 1;}
+                         if (lengthAnticipation == 0){lengthAnticipation = 1;}
+                         // Using variables above, calculate averages for each emotion per artist and store into array
+                         avgRatingsPerArtist.push({
+                              Name: dd.key,
+                              Year: dd.values[0].Year,
+                              Title: dd.values[0].Title,
+                              URL: dd.values[0].URL,
+                              avg_anger: totalAnger/lengthAnger,
+                              avg_fear: totalFear/lengthFear,
+                              avg_happiness: totalHappiness/lengthHappiness,
+                              avg_sadness: totalSadness/lengthSadness,
+                              avg_disgust: totalDisgust/lengthDisgust,
+                              avg_anticipation: totalAnticipation/lengthAnticipation
+                         })
+                    });
+                    // Array of objects specifically to create the pie chart(s)
+                    var data = [];
 
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.right - margin.left,
-    height = 500 - margin.top - margin.bottom,
-    radius = Math.min(width, height) / 2;
+                    avgRatingsPerArtist.forEach(function(d){
+                         data.push([{emotion: "Anger", rating: d.avg_anger},
+                         {emotion: "Fear", rating: d.avg_fear},
+                         {emotion: "Happiness", rating: d.avg_happiness},
+                         {emotion: "Sadness", rating: d.avg_sadness},
+                         {emotion: "Disgust", rating: d.avg_disgust},
+                         {emotion: "Anticipation", rating: d.avg_anticipation}])
+                    });
+                    artistIndex = 0
 
-// Article for color-emotional mappings: https://link.springer.com/article/10.3758/s13428-015-0598-8
-// anger=red, fear=black, happiness=yellow, sadness=blue, disgust=green, anticipation=pink
-var color = d3.scale.ordinal()
-    .range(["red", "black", "yellow", "blue", "green", "pink"]);
+                         if(avgRatingsPerArtist[artistIndex].Year == selectedYear){
+                              //function iterate(item){
+                              //var artistIndex = 984; //***CHANGE INDEX TO CHANGE ARTIST, 0-985 inclusive***
+                              // Informational variables on respective artist based on index above
+                              var artistName = avgRatingsPerArtist[artistIndex].Name;
+                              var artistBio = avgRatingsPerArtist[artistIndex].URL;
+                              var pieChartInfo = data[artistIndex];
+                              var paintingTitle = avgRatingsPerArtist[artistIndex].Title;
+                              var paintingYear = avgRatingsPerArtist[artistIndex].Year;
+                              var paintingBio = avgRatingsPerArtist[artistIndex].Bio;
+                              var container = document.getElementById("container");
+                              container.innerHTML += '<div class ="card-body"><h5 class="card-title">' + paintingTitle + '</h5><h6 class="card-subtitle mb-2 text-muted">' + artistName + '</h6><p class="card-text">' + artistBio + '</p><p class="card-text">' + paintingYear + '</p></div>';
+                              console.log(avgRatingsPerArtist[artistIndex].Year);
+                              console.log(pieChartInfo);
 
-var arc = d3.svg.arc()
-    .outerRadius(radius - 10)
-    .innerRadius(0);
+                              // Create, draw, and customize the pie chart /w legend below...
+                              var g = svg.selectAll(".arc")
+                              .data(pie(pieChartInfo))
+                              .enter().append("g")
+                              .attr("class", "arc");
+                              g.append("path")
+                              .attr("d", arc)
+                              .attr("data-legend", function(d) { return d.data.emotion; })
+                              .attr("data-legend-pos", function(d, i) { return i; })
+                              .style("fill", function(d) { return color(d.data.emotion); });
+                              g.append("text")
+                              .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+                              .attr("dy", ".35em")
+                              .style("text-anchor", "middle");
+                              var padding = 20,
+                              legx = radius + padding,
+                              legend = svg.append("g")
+                              .attr("class", "legend")
+                              .attr("transform", "translate(" + legx + ", 0)")
+                              .style("font-size", "12px")
+                              .call(d3.legend)
 
-var pie = d3.layout.pie()
-    .sort(null)
-    .value(function(d) { return d.rating; });
+                         }
+                         artistIndex = 1 + artistIndex;
+                    });
+                    //ratingsByArtist.forEach(iterate);
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-// Array to hold all needed data in object
-var ratings = [];
 
-// Array to group data by artist name
-var avgRatingsPerArtist = [];
+               });
+               </script>
+          </div>
+     </div>
 
-// Initialize variables to calculate averages
-var totalAnger = 0, totalFear = 0, totalHappiness = 0,
-    totalSadness = 0, totalDisgust = 0, totalAnticipation = 0;
-
-var lengthAnger = 0, lengthFear = 0, lengthHappiness = 0,
-    lengthSadness = 0, lengthDisgust = 0, lengthAnticipation = 0;
-
-d3.csv("WikiArtClean.csv", function(error, d) {
-  
-  // Load data into array to easily group later on
-  d.forEach(function(d) {
-    ratings.push({
-      Name: d.Artist,
-      URL: d["Artist Info URL"],
-      Anger: +d.Anger,
-      Fear: +d.Fear,
-      Happiness: +d.Happiness,
-      Sadness: +d.Sadness,
-      Disgust: +d.Disgust,
-      Anticipation: +d.Anticipation
-    });
-  });
-
-  // Groups data by artist name in separate array
-  var ratingsByArtist = d3.nest()
-      .key(function(d) { return d.Name; })
-      .entries(ratings);
-
-  ratingsByArtist.forEach(function(dd){ // for each artist...
-
-    // reset variables to 0 before using for average calculations
-    totalAnger = 0, totalFear = 0, totalHappiness = 0,
-    totalSadness = 0, totalDisgust = 0, totalAnticipation = 0;
-
-    lengthAnger = 0, lengthFear = 0, lengthHappiness = 0,
-    lengthSadness = 0, lengthDisgust = 0, lengthAnticipation = 0;
-
-    dd.values.forEach(function(d){ //for each data row on the artist...
-      if (d.Anger != 0){ //assume if emotion=0 then no information was recorded
-        totalAnger += d.Anger;
-        lengthAnger++;
-      }
-      if (d.Fear != 0){
-        totalFear += d.Fear;
-        lengthFear++;
-      }
-      if (d.Happiness != 0){
-        totalHappiness += d.Happiness;
-        lengthHappiness++;
-      }
-      if (d.Sadness != 0){
-        totalSadness += d.Sadness;
-        lengthSadness++;
-      }
-      if (d.Disgust != 0){
-        totalDisgust += d.Disgust;
-        lengthDisgust++;
-      }
-      if (d.Anticipation != 0){
-        totalAnticipation += d.Anticipation;
-        lengthAnticipation++;
-      }
-    });
-
-    // check if length=0 to avoid division by 0 (results in NaN), won't change result of 0
-    if (lengthAnger == 0){lengthAnger = 1;}
-    if (lengthFear == 0){lengthFear = 1;}
-    if (lengthHappiness == 0){lengthHappiness = 1;}
-    if (lengthSadness == 0){lengthSadness = 1;}
-    if (lengthDisgust == 0){lengthDisgust = 1;}
-    if (lengthAnticipation == 0){lengthAnticipation = 1;}
-
-    // Using variables above, calculate averages for each emotion per artist and store into array
-    avgRatingsPerArtist.push({
-      Name: dd.key,
-      URL: dd.values[0].URL,
-      avg_anger: totalAnger/lengthAnger,
-      avg_fear: totalFear/lengthFear,
-      avg_happiness: totalHappiness/lengthHappiness,
-      avg_sadness: totalSadness/lengthSadness,
-      avg_disgust: totalDisgust/lengthDisgust,
-      avg_anticipation: totalAnticipation/lengthAnticipation
-    })
-  });
-
-// Array of objects specifically to create the pie chart(s)
-var data = [];
-avgRatingsPerArtist.forEach(function(d){
-  data.push([{emotion: "Anger", rating: d.avg_anger},
-            {emotion: "Fear", rating: d.avg_fear},
-            {emotion: "Happiness", rating: d.avg_happiness},
-            {emotion: "Sadness", rating: d.avg_sadness},
-            {emotion: "Disgust", rating: d.avg_disgust},
-            {emotion: "Anticipation", rating: d.avg_anticipation}])
-});
-
-  var artistIndex = 0; //***CHANGE INDEX TO CHANGE ARTIST, 0-985 inclusive***
-
-  // Informational variables on respective artist based on index above
-  var artistName = avgRatingsPerArtist[artistIndex].Name;
-  var artistBio = avgRatingsPerArtist[artistIndex].URL;
-  var pieChartInfo = data[artistIndex];
-
-  console.log(artistIndex, artistName, artistBio);
-  console.log(pieChartInfo);
-
-  // Create, draw, and customize the pie chart /w legend below...
-  var g = svg.selectAll(".arc")
-      .data(pie(pieChartInfo))
-      .enter().append("g")
-      .attr("class", "arc");
-
-  g.append("path")
-      .attr("d", arc)
-      .attr("data-legend", function(d) { return d.data.emotion; })
-      .attr("data-legend-pos", function(d, i) { return i; })
-      .style("fill", function(d) { return color(d.data.emotion); });
-
-  g.append("text")
-      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-      .attr("dy", ".35em")
-      .style("text-anchor", "middle");
-
-  var padding = 20,
-    legx = radius + padding,
-    legend = svg.append("g")
-    .attr("class", "legend")
-    .attr("transform", "translate(" + legx + ", 0)")
-    .style("font-size", "12px")
-    .call(d3.legend);
-
-});
-
-</script>
+</body>
+</html>
