@@ -28,6 +28,15 @@
      .card{
           padding-top: 10px;
      }
+     .grad {
+          filter:blur(5px);
+     }
+     .back{
+          z-index:0
+     }
+     .front{
+          z-index:10;
+     }
      </style>
 </head>
 <body>
@@ -48,7 +57,7 @@
      // Article for color-emotional mappings: https://link.springer.com/article/10.3758/s13428-015-0598-8
      // anger=red, fear=black, happiness=yellow, sadness=blue, disgust=green, anticipation=pink
      var color = d3.scale.ordinal()
-     .range(["#FF0D77", "#8C0CE8", "#019AFF", "#011BD8", "#00FF6E", "#FF8F0D"]);
+     .range(["#d9534f", "#8C0CE8", "#0275d8", "#5bc0de", "#5cb85c", "#f0ad4e"]);
 
      var arc = d3.svg.arc()
      .outerRadius(radius - 10)
@@ -171,7 +180,7 @@
           var selectedArtist = prompt("What artist would you like to learn about?", avgRatingsPerArtist[Math.floor(Math.random() * 985)].Name);
           if (prompt == ""){
                var container = document.getElementById("container");
-               container += '<div class="row text-center col-6 offset-3 footer-copyright"><h2 class="display-4">Looks like you mispelled the artist name or we don\'t have it saved in our dataset, please select from the following list:</h2><button class="btn btn-outline-secondary btn-block" value="Refresh Page" onClick="window.location.reload();">Click here for another search</button></div><div class="row col-6 offset-3"></div></div></div>';
+               container += '<div class="row text-center col-6 offset-3 footer-copyright"><h2 class=>Looks like you mispelled the artist name or we don\'t have it saved in our dataset, please select from the following list:</h2><a class="btn btn-outline-secondary btn-block" value="Refresh Page" onClick="window.location.reload();">Click here for another search</a></div><div class="row col-6 offset-3"></div></div></div>';
           }
           avgRatingsPerArtist.forEach(function(x){
                // console.log(avgRatingsPerArtist[artistIndex]);
@@ -198,7 +207,8 @@
                          //      paintingTitle += d.Title + ', ';
                          // }
                          // counter ++;
-                         paintingTitle += '<div class="card col-3 bg-light" ><div class="rounded"style="height:300px; background:url(' + d.PicUrl + ') center center filter: blur(8px) -webkit-filter: blur(8px) background-position: center background-repeat: no-repeat background-size: cover"><img class="card-img-top rounded-bottom" src="' + d.PicUrl + '" alt="' + d.Title + '"></div><div class="card-body text-center"><h5 class="card-title">' + d.Title + '</h5><h6 class="card-text">' + d.Year + '</h6><a target="_blank" href="' + d.picInfo + '" class="btn btn-outline-primary">More Information</a></div></div>';
+                         paintingTitle += '<div class="card col-3 bg-light">';
+                         paintingTitle += '<img class="card-img-top rounded-bottom front text-warning" src="' + d.PicUrl + '" alt="' + d.Title + '"><div style=""class="card-body text-center bg-warning "><h5 class="card-title text-primary">' + d.Title + '</h5><h6 class="card-text text-dark">' + d.Year + '</h6><a target="_blank" href="' + d.picInfo + '" class="btn btn-outline-primary">More Information</a></div></div>';
                          counter ++;
                     });
 
@@ -215,8 +225,9 @@
                          counter ++;
                     });
                     var container = document.getElementById("container");
-                              container.innerHTML += '<div class="row"><div class="jumbotron col-12"><h1 class="display-4">' + artistName +'</h1><p class="lead">Project 2 - Wikiart</p><hr class="my-4"><p>Check out the photos below and feel free to click on the buttons to learn more about each painting.</p><p class="lead"><p>After you are done checking out the photos check out the pie chart at the very bottom. This pie chart shows you the average feeling that an audience experienced over all of the paintings that you see below.</p><p><a href="'+artistBio+'">Click here for the Artist\'s Biography </a></p></p></div></div>';
-                              container.innerHTML += '<div class="row" style="padding:0 30px">' + paintingTitle + '</div><hr class="my-4"><div class="row text-center col-6 offset-3 footer-copyright"><button class="btn btn-outline-secondary btn-block bg-light" value="Refresh Page" onClick="window.location.reload();">Click here for another search</button></div><div class="row col-6 offset-3"><h2 class="display-4">Average Audience Emotions:</h2></div></div></div>';
+                              container.innerHTML += '<div class="row"><div class="jumbotron col-12"><h1 class="display-4 text-primary">' + artistName +'</h1><p class="lead">Project 2 - Wikiart</p><hr class="my-4"><p>Check out the photos below and feel free to click on the buttons to learn more about each painting.</p><p class="lead"><p>After you are done checking out the photos check out the pie chart at the very bottom. This pie chart shows you the average feeling that an audience experienced over all of the paintings that you see below.</p><p><a class="btn btn-outline-primary" target="_blank" href="' + artistBio + '">Click here for the Artist\'s Biography </a></p></p></div></div>';
+                              container.innerHTML += '<div class="row" style="padding:0 30px">' + paintingTitle + '</div><hr class="my-4"><div class="row text-center col-6 offset-3 footer-copyright"><a class="btn btn-outline-primary btn-block " value="Refresh Page" onClick="window.location.reload();">Click here for another search</a></div><div class="row col-6 offset-3"><h3 class="display-4">Average Total Emotions:</h3></div></div></div>';
+
                     // Create, draw, and customize the pie chart
                     var g = svg.selectAll(".arc")
                     .data(pie(pieChartInfo))
