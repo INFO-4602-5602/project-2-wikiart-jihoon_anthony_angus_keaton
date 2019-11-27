@@ -38,7 +38,7 @@ Our goal for this project was to create visualizations that illustrate interesti
      Data preprocessing/design: To take the data in from the Excel file, we process the data through a series of organizational steps: 1. Take in all desires data attributes row-by-row and store in an array of objects 2. Group the array of objects by artist name (the category is therefore the artists) 3. For each artist, calculate the average of six emotions: fear, anger, happiness, sadness, disgust, anticipation and store in an array of objects 4. Use a separate array ordered the same way as the array grouped by artists and format it to use for creating pie charts 5. With access to each of these arrays, displaying desires data became conveniently easy and simple, along with the ability to create the pie chart based on the user desired artist
 </p>
 <h4>
-     Design Process: 
+     Design Process:
 </h4>
      The back-end organization was decided upon during development based off what seemed to be most logical and simple. A new array was created for each step in the data processing so that the information could be utilized later on if needed or desired.
 
@@ -70,10 +70,20 @@ Our goal for this project was to create visualizations that illustrate interesti
      <li>Once you are satisfied with you browsing feel free to hit the button at the bottom to refresh the page so you can enter another artist or explore another randomly selected artist from the dataset</li>
 </ul>
 
+<h2>
+     Quantitative Section
+</h2>
 
-
-<h2>Folder 2: Jihoon_Anthony</h2>
-<h3>Authors: Jihoon Jang, Anthony Camacci</h3>
+<h2>
+     Folder 2: Jihoon_Anthony
+</h2>
+<h3>
+     Authors:
+</h3>
+<ul>
+     <li>Jihoon Jang</li>
+     <li>Anthony Camacci</li>
+</ul>
 <p>
      The purpose of the fear factor visualization is to identify the artist's work(s) who has created the
      emotion fear to the viewer. The visualization allows you to identify artists whose work creates
