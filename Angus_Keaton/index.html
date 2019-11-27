@@ -21,17 +21,17 @@
 
      <style>
      body {
-       font: 10px sans-serif;
+          font: 10px sans-serif;
      }
 
      .arc path {
-       stroke: #fff;
+          stroke: #fff;
      }
 
      .legend rect {
-       fill:white;
-       stroke:black;
-       opacity: 0.8;
+          fill:white;
+          stroke:black;
+          opacity: 0.8;
      }
 
      img {
@@ -87,6 +87,8 @@
      }
      </style>
 
+
+
 </head>
 
 <body id="page-top">
@@ -107,29 +109,6 @@
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                         <!-- Sidebar Toggle (Topbar) -->
-                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                              <i class="fa fa-bars"></i>
-                         </button>
-
-                         <!-- Topbar Search -->
-                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                              <div class="input-group">
-                                   <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                   <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                             <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                   </div>
-                              </div>
-                         </form>
-
-                         <!-- Topbar Navbar -->
-                         <ul class="navbar-nav ml-auto">
-
-
-                         </ul>
-
                     </nav>
                     <!-- End of Topbar -->
 
@@ -144,29 +123,23 @@
                               var container = document.getElementById("container");
 
                               // if(document.getElementById("myRange").value > 1700)     {
-                                        for (var i = 0; i < array.length; i++) {
-                                        container.innerHTML += '<div class="card" style="width: 18rem;"> <img class="card-img-top" src="'+arrayImg[i]+'" alt="Card image cap"><div class ="card-body"><h5 class="card-title">' + array[i] + '</h5><h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6><p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p><a href="#" class="card-link">Card link</a><a href="#" class="card-link">Another link</a></div></div>';
-                                   }
+                              for (var i = 0; i < array.length; i++) {
+                                   container.innerHTML += '<div class="card" style="width: 18rem;"> <img class="card-img-top" src="'+arrayImg[i]+'" alt="Card image cap"><div class ="card-body"><h5 class="card-title">' + array[i] + '</h5><h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6><p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p><a href="#" class="card-link">Card link</a><a href="#" class="card-link">Another link</a></div></div>';
+                              }
                               // }
                               </script>
 
+
                          </div>
-                         <div class="row" id="slider">
-                              <div class="slidecontainer">
-                                   <input type="range" min="1415" max="2012" value="1701" class="slider" id="myRange">
-                                   <p>Value: <span id="demo"></span></p>
+                         <script src="https://d3js.org/d3.v3.min.js"></script>
+                         <script src="d3.legend.js"></script>
+                         <div class"card" style="width: 18rem;">
+                              <div id="container">
+
                               </div>
                          </div>
-                         <script>
-                              var slider = document.getElementById("myRange");
-                              var output = document.getElementById("demo");
-                              output.innerHTML = slider.value;
-
-                              slider.oninput = function() {
-                                output.innerHTML = this.value;
-                              }
-                         </script>
                     </div>
+
                     <!-- Fixed slider div-->
                     <div class="wrapper">
 
@@ -193,41 +166,9 @@
                     <i class="fas fa-angle-up"></i>
                </a>
 
-               <!-- Logout Modal-->
-               <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                         <div class="modal-content">
-                              <div class="modal-header">
-                                   <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                                   <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                   </button>
-                              </div>
-                              <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                              <div class="modal-footer">
-                                   <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                   <a class="btn btn-primary" href="login.html">Logout</a>
-                              </div>
-                         </div>
-                    </div>
-               </div>
 
-               <!-- Bootstrap core JavaScript-->
-               <script src="vendor/jquery/jquery.min.js"></script>
-               <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-               <!-- Core plugin JavaScript-->
-               <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-               <!-- Custom scripts for all pages-->
-               <script src="js/sb-admin-2.min.js"></script>
-
-               <!-- Page level plugins -->
-               <script src="vendor/chart.js/Chart.min.js"></script>
-
-               <!-- Page level custom scripts -->
-               <script src="js/demo/chart-area-demo.js"></script>
-               <script src="js/demo/chart-pie-demo.js"></script>
 
           </body>
 
