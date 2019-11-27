@@ -22,8 +22,11 @@
      }
      svg{
           margin-left:auto;
-          margin-right:auto;
+          margin-right: auto;
           display:block;
+     }
+     .card{
+          padding-top: 10px;
      }
      </style>
 </head>
@@ -35,13 +38,13 @@
      <script src="d3.legend.js"></script>
      <script>
      //Global variable of year that is manipulated by the slider
-     var selectedArtist = prompt("What artist would you like to learn about?");
+
      // SOURCE TEMPLATE: http://bl.ocks.org/wayneminton/a12b563819b04a3555aa
      // Data concerns: negative ratings AND a bunch of 0s in the data (holes in provided data)
      var margin = {top: 10, right: 10, bottom: 10, left: 10},
-     width = 450,
-     height = (500 - margin.top - margin.bottom)/2,
-     radius = Math.min(width, height) / 2;
+     width = 960,
+     height = 540,
+     radius = Math.min(width, height)/2 ;
      // Article for color-emotional mappings: https://link.springer.com/article/10.3758/s13428-015-0598-8
      // anger=red, fear=black, happiness=yellow, sadness=blue, disgust=green, anticipation=pink
      var color = d3.scale.ordinal()
@@ -59,7 +62,7 @@
      .attr("width", width)
      .attr("height", height)
      .append("g")
-     .attr("transform", "translate(" + width / 4 + "," + height / 2 + ")");
+     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
      // Array to hold all needed data in object
      var ratings = [];
@@ -165,6 +168,11 @@
                {emotion: "Anticipation", rating: d.avg_anticipation}])
           });
           artistIndex = 0
+          var selectedArtist = prompt("What artist would you like to learn about?", avgRatingsPerArtist[Math.floor(Math.random() * 985)].Name);
+          if (prompt == ""){
+               var container = document.getElementById("container");
+               container += '<div class="row text-center col-6 offset-3 footer-copyright"><h2 class="display-4">Looks like you mispelled the artist name or we don\'t have it saved in our dataset, please select from the following list:</h2><button class="btn btn-outline-secondary btn-block" value="Refresh Page" onClick="window.location.reload();">Click here for another search</button></div><div class="row col-6 offset-3"></div></div></div>';
+          }
           avgRatingsPerArtist.forEach(function(x){
                // console.log(avgRatingsPerArtist[artistIndex]);
                if(avgRatingsPerArtist[artistIndex].Name == selectedArtist){
@@ -178,7 +186,7 @@
                     var picYear = avgRatingsPerArtist[artistIndex].Year;
                     var pieChartInfo = data[artistIndex];
                     var paintingTitle = "";
-                    console.log(ratingsByArtist[artistIndex]);
+
                     //
                     var counter = 0;
                     ratingsByArtist[artistIndex].values.forEach(function(d){
@@ -190,7 +198,7 @@
                          //      paintingTitle += d.Title + ', ';
                          // }
                          // counter ++;
-                         paintingTitle += '<div class="card col-3" ><img class="card-img-top" src="' + d.PicUrl + '" alt="' + d.Title + '"><div class="card-body"><h5 class="card-title">' + d.Title + '</h5><h6 class="card-text">' + d.Year + '</h6><a href="' + d.picInfo + '" class="btn btn-primary">More Information</a></div></div>';
+                         paintingTitle += '<div class="card col-3 bg-light" ><div class="rounded"style="height:300px; background:url(' + d.PicUrl + ') center center filter: blur(8px) -webkit-filter: blur(8px) background-position: center background-repeat: no-repeat background-size: cover"><img class="card-img-top rounded-bottom" src="' + d.PicUrl + '" alt="' + d.Title + '"></div><div class="card-body text-center"><h5 class="card-title">' + d.Title + '</h5><h6 class="card-text">' + d.Year + '</h6><a target="_blank" href="' + d.picInfo + '" class="btn btn-outline-primary">More Information</a></div></div>';
                          counter ++;
                     });
 
@@ -207,13 +215,8 @@
                          counter ++;
                     });
                     var container = document.getElementById("container");
-
-                              container.innerHTML += '<div class="row">' + paintingTitle + '</div><div class="row"><div class ="card-body"><h5 class="card-title">' + artistName + '</h5><p class="card-text"><a href="'+artistBio+'"><h6>Artist Biography</h6> </a></p></div></div></div></div>';
-
-                    console.log(avgRatingsPerArtist[artistIndex].Name);
-
-
-
+                              container.innerHTML += '<div class="row"><div class="jumbotron col-12"><h1 class="display-4">' + artistName +'</h1><p class="lead">Project 2 - Wikiart</p><hr class="my-4"><p>Check out the photos below and feel free to click on the buttons to learn more about each painting.</p><p class="lead"><p>After you are done checking out the photos check out the pie chart at the very bottom. This pie chart shows you the average feeling that an audience experienced over all of the paintings that you see below.</p><p><a href="'+artistBio+'">Click here for the Artist\'s Biography </a></p></p></div></div>';
+                              container.innerHTML += '<div class="row" style="padding:0 30px">' + paintingTitle + '</div><hr class="my-4"><div class="row text-center col-6 offset-3 footer-copyright"><button class="btn btn-outline-secondary btn-block bg-light" value="Refresh Page" onClick="window.location.reload();">Click here for another search</button></div><div class="row col-6 offset-3"><h2 class="display-4">Average Audience Emotions:</h2></div></div></div>';
                     // Create, draw, and customize the pie chart
                     var g = svg.selectAll(".arc")
                     .data(pie(pieChartInfo))
@@ -235,10 +238,9 @@
                     .style("font-size", "12px")
                     .call(d3.legend)
                }
+
                artistIndex = 1 + artistIndex;
           });
-          console.log(ratingsByArtist);
-          console.log(avgRatingsPerArtist);
           //ratingsByArtist.forEach(iterate);
      });
      </script>
